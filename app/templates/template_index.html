@@ -27,7 +27,7 @@
     <div class="col-md-6 col-md-push-3">
     <div class="my_container">
         <h1>Welcome {{name}}</h1>
-        <form action="/user" method="get">
+        <form action="/user" method="POST">
             {{form.csrf_token}}
             {{form.email.label}}
             {{form.email(class='form-control',id='email')}}
