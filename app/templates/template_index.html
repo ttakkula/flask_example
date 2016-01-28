@@ -1,16 +1,45 @@
-<!doctype html>
-{# In this file all variables inside will be replaced by Jinja2 template engine with actual data #}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>{{title}}</title>
-    </head>
-    <body>
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Index {{super()}}{% endblock %}    
+
+{% block head %}
+    {{super()}}
+    <link href="../static/css/styles.css" type="text/css" rel="stylesheet">
+    <style>
+        .my_container{
+            width: 100%;
+            margin: 30px auto;
+            padding: 8px;
+            border: 2px solid gray;
+            border-radius: 6px;
+            background-color: floralwhite;
+        }
+</style>
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+    <div class="col-md-6 col-md-push-3">
+    <div class="my_container">
         <h1>Welcome {{name}}</h1>
         <form action="/user" method="get">
-            <label for="name">Enter your name</label>
-            <input type="text" name="name" id="name"><br>
-            <input type="submit" value="Send"/>
+            {{form.csrf_token}}
+            {{form.email.label}}
+            {{form.email(class='form-control',id='email')}}
+            
+            {{form.passw.label}}
+            {{form.passw(class='form-control')}}
+            
+            {{form.submit(class='btn btn-success')}}
         </form>
-    </body>
-</html>
+    </div>
+    </div>        
+    </div>
+    </div>    
+        
+{% endblock %}

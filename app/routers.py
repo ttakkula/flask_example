@@ -1,15 +1,12 @@
 from app import app
 #render_template gives you access to Jinja2 template engine
 from flask import render_template, request, make_response
-@app.route('/')
+from app.forms import LoginForm
 
+@app.route('/',methods=['GET','POST'])
 def index():
-    name = 'My Name'
-    address = 'My address'
-    # return render_template('template_index.html',title=address,name=name)
-    response = make_response(render_template('template_index.html',title=address,name=name))
-    response.headers.add('Content-Language','en')
-    return response
+    login = LoginForm()
+    return render_template('template_index.html',form=login)
 
 @app.route('/user/<user>')
 def user(user):
