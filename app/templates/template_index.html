@@ -6,12 +6,7 @@
     {{super()}}
     <link href="../static/css/styles.css" type="text/css" rel="stylesheet">
     <style>
-        .my_container{
-            width: 100%;
-            margin: 30px auto;
-            padding: 8px;
-            border: 2px solid gray;
-            border-radius: 6px;
+        .my_panel-body{
             background-color: floralwhite;
         }
 </style>
@@ -19,27 +14,4 @@
 
 {% block navbar %}
     {% include 'navbar.html' %}
-{% endblock %}
-
-{% block content %}
-    <div class="container">
-    <div class="row">
-    <div class="col-md-6 col-md-push-3">
-    <div class="my_container">
-        <h1>Welcome {{name}}</h1>
-        <form action="/user" method="POST">
-            {{form.csrf_token}}
-            {{form.email.label}}
-            {{form.email(class='form-control',id='email')}}
-            
-            {{form.passw.label}}
-            {{form.passw(class='form-control')}}
-            
-            {{form.submit(class='btn btn-success')}}
-        </form>
-    </div>
-    </div>        
-    </div>
-    </div>    
-        
 {% endblock %}

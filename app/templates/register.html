@@ -1,0 +1,34 @@
+{% extends "template_index.html" %}
+{% block title %}Register {{super()}}{% endblock %}  
+{% block content %}
+    <div class="container">
+    <div class="row">
+    <div class="col-md-6 col-md-push-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+            <h1 class="panel-title">Register new user</h1>
+            </div>
+            <div class="panel-body my_panel-body">
+                <form action="/register" method="POST">
+                    {{form.csrf_token}}
+                    <div class="form-group">
+                    {{form.email.label}}
+                    {{form.email(class='form-control',id='email')}}
+                    </div>
+                    <div class="form-group">
+                    {{form.passw.label}}
+                    {{form.passw(class='form-control')}}
+                    </div>
+                    <div class="form-group">
+                    {{form.submit(class='btn btn-success')}}
+                    <a href="/" class="btn btn-link">Back to login</a>                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end of column -->
+    </div>
+    </div>    
+        
+{% endblock %}
