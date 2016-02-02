@@ -1,9 +1,9 @@
 from app import app
 #render_template gives you access to Jinja2 template engine
 from flask import render_template, request, make_response, flash, redirect
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, FriendForm
 from app import db
-from app.db_models import Users
+from app.db_models import Users, Friends
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -38,6 +38,23 @@ def register():
         else:
             flash('Check fields!')
             return render_template('register.html',form=newuser)
+
+@app.route('/addfriend',methods=['GET','POST'])
+def addfriend():
+    newfriend = FriendForm()
+        # Check if get method
+    if request.method == 'GET':
+        return render_template('addfriend.html',form=newfriend)
+    else:
+        if newfriend.validate_on_submit():
+            friend = Friends(newfriend.name.data, newfriend.address.data, newfriend.age.data, newfriend.address.data)
+            db.session.add(friend)
+            db.session.commit()
+            flash('New friend, {0} registered!'.format(newfriend.name.data))            
+            return redirect('/template_user.html')
+        else:
+            flash('Check fields!')
+            return render_template('addfriend.html',form=newfriend)
     
 @app.route('/user/<user>')
 def user(user):
