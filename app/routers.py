@@ -4,6 +4,7 @@ from flask import render_template, request, make_response, flash, redirect, sess
 from app.forms import LoginForm, RegisterForm, FriendForm
 from app import db
 from app.db_models import Users, Friends
+from flask.ext.bcrypt import check_password_hash
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -14,8 +15,8 @@ def index():
     else:
         # Check if form data is valid
         if login.validate_on_submit():
-            user = Users.query.filter_by(email=login.email.data).filter_by(passw=login.passw.data)
-            if user.count() == 1:
+            user = Users.query.filter_by(email=login.email.data)
+            if user.count() == 1 and (check_password_hash(user[0].passw,login.passw.data)):
                 session['user_id'] = user[0].id
                 session['isLogged'] = True
                 print(user)
@@ -60,28 +61,7 @@ def friends():
         friend = Users.query.get(session['user_id'])
         return render_template('friends.html',isLogged=True,friends=friend.friends)
 
-    
-@app.route('/addfriend',methods=['GET','POST'])
-def addfriend():
-    newfriend = FriendForm()
-        # Check if get method
-    if request.method == 'GET':
-        return render_template('addfriend.html',form=newfriend,isLogged=True)
-    else:
-        if newfriend.validate_on_submit():
-            # first solution below without db.relationship 
-            friends = Friends(newfriend.name.data, newfriend.address.data, newfriend.age.data, session['user_id'])
-            # second solution with db.relationship
-            # friend = Users.query.get(session['user_id'])
-            # print(friend.friends)            
-            db.session.add(friends)
-            db.session.commit()
-            flash('New friend, {0} added to list!'.format(newfriend.name.data))            
-            #return render_template('friends.html',isLogged=True,friends=friend.friends)
-            return render_template('friends.html',isLogged=True,friends=friends)
-        else:
-            flash('Check fields!')
-            return render_template('addfriend.html',form=newfriend,isLogged=True)
+
 
 @app.route('/logout')
 def logout():

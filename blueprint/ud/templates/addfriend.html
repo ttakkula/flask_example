@@ -6,10 +6,10 @@
     <div class="col-md-6 col-md-push-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-            <h1 class="panel-title">Add new friend</h1>
+            <h1 class="panel-title">Add new friend - at new blueprint folder</h1>
             </div>
             <div class="panel-body my_panel-body">
-                <form action="/addfriend" method="POST">
+                <form action="/app/addfriend" method="POST" enctype="multipart/form-data">
                     {{form.csrf_token}}
                     <div class="form-group">
                     {{form.name.label}}
@@ -24,8 +24,12 @@
                     {{form.age(class='form-control')}}
                     </div>
                     <div class="form-group">
+                    {{form.upload_file.label}}
+                    {{form.upload_file()}}
+                    </div>                    
+                    <div class="form-group">
                     {{form.submit(class='btn btn-primary')}}
-                    <a href="/" class="btn btn-link">Back</a>                        
+                    <a href="/friends" class="btn btn-default">Cancel</a>                        
                     </div>
                 </form>
             </div>

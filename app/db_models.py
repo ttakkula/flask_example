@@ -1,4 +1,5 @@
 from app import db
+from flask.ext.bcrypt import generate_password_hash
 
 class Users(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -8,15 +9,16 @@ class Users(db.Model):
     """Define the class constructor"""
     def __init__(self, email, passw):
         self.email = email
-        self.passw = passw
-    def __str__(self):
-        return self.email + ' ' + self.passw + ' ' +str(self.id)
+        self.passw = generate_password_hash(passw)
+    #def __str__(self):
+        #return self.email + ' ' + self.passw + ' ' +str(self.id)
         
 class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
     age = db.Column(db.Integer)
+    filename = db.Column(db.String,default='/static/images/default.jpg')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # This is Friends constructor
     def __init__(self, name, address, age, user_id):

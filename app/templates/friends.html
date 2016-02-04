@@ -5,7 +5,7 @@
     <div class="row">
     <div class="col-md-8 col-md-push-2">
         <div class="well">
-        <h1>Your friends</h1>
+        <h1>Friends <small>(if any)</small></h1>
             
             <table class="table">
             <thead>
@@ -13,6 +13,7 @@
                     <th>Name</th>
                     <th>Address</th>
                     <th>Age</th>                    
+                    <th>Image</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,12 +21,16 @@
                 <tr>
                     <td>{{ item.name }}</td>
                     <td>{{ item.address }}</td>
-                    <td>{{ item.age }}</td>                    
+                    <td>{{ item.age }}</td>
+                    <td style="width:30%"><img src="{{ item.filename }}" class="img-responsive img-circle"></td>                    
                 </tr>
                 {% endfor %}
             </tbody>
             </table>
             
+            <p class="text-center">
+                <a href="/app/addfriend" class="btn btn-lg btn-success">Add friend</a>
+            </p>
             
         </div>
     </div>

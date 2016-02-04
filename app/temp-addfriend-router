@@ -1,0 +1,22 @@
+    
+@app.route('/addfriend',methods=['GET','POST'])
+def addfriend():
+    newfriend = FriendForm()
+        # Check if get method
+    if request.method == 'GET':
+        return render_template('addfriend.html',form=newfriend,isLogged=True)
+    else:
+        if newfriend.validate_on_submit():
+            # first solution below without db.relationship 
+            friends = Friends(newfriend.name.data, newfriend.address.data, newfriend.age.data, session['user_id'])
+            # second solution with db.relationship
+            # friend = Users.query.get(session['user_id'])
+            # print(friend.friends)            
+            db.session.add(friends)
+            db.session.commit()
+            flash('New friend, {0} added to list!'.format(newfriend.name.data))            
+            user = Users.query.get(session['user_id'])
+            return render_template('friends.html',isLogged=True,friends=user.friends)
+        else:
+            flash('Check fields!')
+            return render_template('addfriend.html',form=newfriend,isLogged=True)
